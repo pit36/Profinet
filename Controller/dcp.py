@@ -93,14 +93,15 @@ def read_response(s, my_mac, to=20, once=False, debug=False):
                 eth = EthernetHeader(data)
                 if eth.dst != my_mac or eth.type != PNDCPHeader.ETHER_TYPE:
                     continue
-                debug and print("MAC address:", mac2s(eth.src))
+                if debug: 
+                    print("MAC address:", mac2s(eth.src))
                 
                 # nur DCP Identify Responses
                 pro = PNDCPHeader(eth.payload)
                 if not (pro.service_type == PNDCPHeader.RESPONSE):
                     continue
                 
-                # Blöcke der Response parsen
+                # Bloecke der Response parsen
                 blocks = pro.payload
                 length = pro.length
                 parsed = {}
@@ -112,10 +113,12 @@ def read_response(s, my_mac, to=20, once=False, debug=False):
                     
                     block_len = block.length
                     if blockoption == PNDCPBlock.NAME_OF_STATION:
-                        debug and print("Name of Station: %s" % block.payload)
+                        if debug:
+                            print("Name of Station: %s" % block.payload)
                         parsed["name"] = block.payload
                     elif blockoption == PNDCPBlock.IP_ADDRESS:
-                        debug and print(str(block.parse_ip()))
+                        if debug:
+                            print(str(block.parse_ip()))
                         parsed["ip"] = s2ip(block.payload[0:4])
                     elif blockoption == PNDCPBlock.DEVICE_ID:
                         parsed["devId"] = block.payload

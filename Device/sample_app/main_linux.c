@@ -213,7 +213,7 @@ static pnet_cfg_t                pnet_default_cfg =
       .station_name = "",   /* Override by command line argument */
       .device_vendor = "rt-labs",
       .manufacturer_specific_string = "PNET demo",
-
+      // TODO
       .lldp_cfg =
       {
        .chassis_id = "rt-labs1",   /* Is this a valid name? '-' allowed?*/
@@ -1176,8 +1176,10 @@ void pn_main (void * arg)
    for (;;)
    {
       os_event_wait(p_appdata->main_events, mask, &flags, OS_WAIT_FOREVER);
+      printf("Waiting Over.\n");
       if (flags & EVENT_READY_FOR_DATA)
       {
+         printf("1\n");
          os_event_clr(p_appdata->main_events, EVENT_READY_FOR_DATA); /* Re-arm */
 
          /* Send appl ready to profinet stack. */
@@ -1195,6 +1197,7 @@ void pn_main (void * arg)
       }
       else if (flags & EVENT_ALARM)
       {
+         printf("2\n");
          pnet_pnio_status_t      pnio_status = { 0,0,0,0 };
 
          os_event_clr(p_appdata->main_events, EVENT_ALARM); /* Re-arm */
@@ -1211,6 +1214,7 @@ void pn_main (void * arg)
       }
       else if (flags & EVENT_TIMER)
       {
+         printf("3\n");
          os_event_clr(p_appdata->main_events, EVENT_TIMER); /* Re-arm */
          tick_ctr_buttons++;
          tick_ctr_update_data++;
@@ -1232,6 +1236,7 @@ void pn_main (void * arg)
          /* Set input and output data every 10ms */
          if ((p_appdata->main_arep != UINT32_MAX) && (tick_ctr_update_data > 10))
          {
+            printf("4\n");
             tick_ctr_update_data = 0;
 
             /* Input data (for sending to IO-controller) */
@@ -1332,6 +1337,7 @@ void pn_main (void * arg)
       }
       else if (flags & EVENT_ABORT)
       {
+         printf("RM\n");
          /* Reset main */
          p_appdata->main_arep = UINT32_MAX;
          p_appdata->alarm_allowed = true;
