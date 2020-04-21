@@ -1176,7 +1176,7 @@ void pn_main (void * arg)
    for (;;)
    {
       os_event_wait(p_appdata->main_events, mask, &flags, OS_WAIT_FOREVER);
-      printf("Waiting Over.\n");
+      //printf("Waiting Over.\n");
       if (flags & EVENT_READY_FOR_DATA)
       {
          printf("1\n");
@@ -1214,7 +1214,7 @@ void pn_main (void * arg)
       }
       else if (flags & EVENT_TIMER)
       {
-         printf("3\n");
+         //printf("3\n");
          os_event_clr(p_appdata->main_events, EVENT_TIMER); /* Re-arm */
          tick_ctr_buttons++;
          tick_ctr_update_data++;
