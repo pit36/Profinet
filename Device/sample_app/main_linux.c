@@ -1214,6 +1214,7 @@ void pn_main (void * arg)
       }
       else if (flags & EVENT_TIMER)
       {
+         // Reads button data
          //printf("3\n");
          os_event_clr(p_appdata->main_events, EVENT_TIMER); /* Re-arm */
          tick_ctr_buttons++;
